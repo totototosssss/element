@@ -2,85 +2,64 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Element Master</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Elements</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="background-gradient"></div>
-    
-    <div class="app-container">
+    <div class="container">
         <div id="menu-screen" class="screen active">
-            <header>
-                <h1>Element Master</h1>
-                <p>Periodic Table Memorization</p>
-            </header>
+            <h1>Element Quiz</h1>
             
-            <div class="card-group">
-                <h2>Select Range</h2>
-                <div class="segmented-control">
-                    <button class="segment active" onclick="setRange('60', this)">1 - 60</button>
-                    <button class="segment" onclick="setRange('all', this)">All (118)</button>
-                    <button class="segment" onclick="setRange('mistakes', this)">Mistakes</button>
-                </div>
+            <div class="mode-select">
+                <label><input type="radio" name="range" value="60" checked> 1-60</label>
+                <label><input type="radio" name="range" value="all"> All (118)</label>
+                <label><input type="radio" name="range" value="mistakes"> Mistakes</label>
             </div>
 
-            <div class="action-buttons">
-                <button class="apple-btn primary" onclick="startMode('study')">
-                    <span class="icon">📖</span> Study Mode
-                </button>
-                <button class="apple-btn secondary" onclick="startMode('quiz')">
-                    <span class="icon">✍️</span> Quiz Mode
-                </button>
-            </div>
-            <p id="stats-display" class="stats-text"></p>
-        </div>
-
-        <div id="study-screen" class="screen">
-            <div class="header-bar">
-                <button class="back-btn" onclick="goHome()">✕</button>
-                <span id="study-progress">1 / 60</span>
-            </div>
+            <button onclick="startMode('quiz')">Start Quiz (Type)</button>
+            <button onclick="startMode('study')" class="outline-btn">View Mode (Card)</button>
             
-            <div class="flashcard-container" onclick="flipCard()">
-                <div class="flashcard" id="flashcard">
-                    <div class="front">
-                        <span class="atomic-number" id="study-num">1</span>
-                        <span class="element-symbol" id="study-sym">H</span>
-                        <span class="tap-hint">Tap to flip</span>
-                    </div>
-                    <div class="back">
-                        <span class="element-name" id="study-name">Hydrogen</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="control-bar">
-                <button class="circle-btn" onclick="nextCard(-1)">←</button>
-                <button class="circle-btn" onclick="nextCard(1)">→</button>
-            </div>
+            <p id="stats-msg" class="stats"></p>
         </div>
 
         <div id="quiz-screen" class="screen">
-            <div class="header-bar">
-                <button class="back-btn" onclick="goHome()">✕</button>
-                <span id="quiz-progress">Score: 0</span>
+            <div class="nav">
+                <button onclick="goHome()">Menu</button>
+                <span id="quiz-progress">0/0</span>
             </div>
 
-            <div class="quiz-card">
-                <span class="atomic-number" id="quiz-num">1</span>
-                <span class="element-symbol" id="quiz-sym">H</span>
+            <div class="card">
+                <div class="atomic-num" id="q-num"></div>
+                <div class="symbol" id="q-sym"></div>
             </div>
 
             <div class="input-area">
-                <input type="text" id="quiz-input" placeholder="Type English Name" autocomplete="off" autocapitalize="off">
-                <button id="quiz-submit" onclick="checkAnswer()">Submit</button>
+                <input type="text" id="answer-input" placeholder="English Name" autocomplete="off">
+                <button id="submit-btn" onclick="checkAnswer()">Answer</button>
             </div>
             
-            <div id="quiz-feedback" class="feedback"></div>
+            <div id="result-msg"></div>
+        </div>
+
+        <div id="study-screen" class="screen">
+            <div class="nav">
+                <button onclick="goHome()">Menu</button>
+                <span id="study-progress">0/0</span>
+            </div>
+
+            <div class="card" onclick="toggleStudyCard()">
+                <div class="atomic-num" id="s-num"></div>
+                <div class="symbol" id="s-sym"></div>
+                <div class="answer-text" id="s-ans" style="display:none;"></div>
+                <div class="hint">Tap to Show Answer</div>
+            </div>
+
+            <div class="controls">
+                <button onclick="nextCard()">Next &rarr;</button>
+            </div>
         </div>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>
